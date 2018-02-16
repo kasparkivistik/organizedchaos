@@ -20,3 +20,7 @@ out/
 src/main/resources/static/
 src/main/resources/templates/
 src/test/resources/
+src/resources/attributes/
+src/resources/binding-behaviors/
+src/resources/elements/
+src/resources/value-converters/

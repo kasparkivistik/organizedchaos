@@ -1,6 +1,5 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,16 +7,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
+
 @Controller
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private SecurityService securityService;
 
-    @Autowired
+    @Resource
     private UserValidator userValidator;
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
