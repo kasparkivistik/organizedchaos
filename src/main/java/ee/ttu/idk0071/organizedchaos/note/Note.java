@@ -18,4 +18,5 @@ public class Note {
     private String content;
     private String name;
     private Date dateCreated;
+    private Date finishDate;
 }

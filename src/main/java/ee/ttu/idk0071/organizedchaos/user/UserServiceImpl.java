@@ -11,10 +11,10 @@ import java.util.HashSet;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserRespository userRespository;
+    private UserRepository userRepository;
 
     @Resource
-    private RoleRespository roleRespository;
+    private RoleRepository roleRepository;
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -22,12 +22,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRespository.findAll()));
-        userRespository.save(user);
+        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        userRepository.save(user);
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRespository.findByUsername(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
+
+    @Override
+    public User findById(long id) { return userRepository.findById(id);}
 }

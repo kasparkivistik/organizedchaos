@@ -1,6 +1,7 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,8 +14,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String username;
     private String password;
+    @Email
+    private String email;
 
     @Transient
     private String passwordConfirm;
