@@ -1,4 +1,4 @@
-package ee.ttu.idk0071.organizedchaos.user;
+package ee.ttu.idk0071.organizedchaos.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

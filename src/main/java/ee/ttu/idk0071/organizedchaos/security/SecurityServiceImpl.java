@@ -1,4 +1,4 @@
-package ee.ttu.idk0071.organizedchaos.user;
+package ee.ttu.idk0071.organizedchaos.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

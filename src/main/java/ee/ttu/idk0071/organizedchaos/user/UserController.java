@@ -1,5 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
+import ee.ttu.idk0071.organizedchaos.security.SecurityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

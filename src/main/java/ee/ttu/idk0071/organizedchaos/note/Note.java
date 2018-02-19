@@ -19,4 +19,5 @@ public class Note {
     private String name;
     private Date dateCreated;
     private Date finishDate;
+    private boolean complete;
 }
