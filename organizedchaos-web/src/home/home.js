@@ -1,4 +1,4 @@
-export class login {
+export class home {
   constructor(){
 
   }
