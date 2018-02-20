@@ -34,17 +34,40 @@
         <div class="col-lg-4 col-md-6">
           <h2>Notes</h2>
             <div class="column">
-              <div class="">
-                <div class="bs-component">
-                  <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Suusad</div>
-                    <div class="card-body">
-                      <p class="card-text">Vii suusad Reinu juurde määrimisse.</p>
-                    </div>
+              <div class="bs-component">
+                <div class="card text-gray bg-light mb-3" style="max-width: 20rem;">
+                  <div class="card-header">Add note</div>
+                  <div class="card-body">
+                    <form submit.trigger="addNote()">
+                      <div class="form-group">
+                        <textarea class="form-control" rows="3" value.bind="noteDescription"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-outline-primary">Add</button>
+                    </form>
                   </div>
                 </div>
               </div>
-              <div class="">
+              <!--<tr>
+                <td repeat.for="note of notes">
+                  <text></text>
+                </td>
+              </tr>-->
+              <div class="bs-component">
+                <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+                  <div class="card-header">New and upcoming</div>
+                  <div class="card-body">
+                    <p class="card-text">${noteDescription}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bs-component">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                  <div class="card-header">Suusad</div>
+                    <div class="card-body">
+                      <p class="card-text">Vii suusad Reinu juurde määrimisse.</p>
+                    </div>
+                </div>
+              </div>
                 <div class="bs-component">
                   <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
                     <div class="card-header">Tarkvaratehnika</div>
@@ -53,7 +76,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
           </div>
         </div>
         <div class="col-lg-8 col-md-6">
