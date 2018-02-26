@@ -11,8 +11,8 @@ export class App {
     config.title = 'Chaos organized';
     config.map([
       {route: ['', 'home'], name: 'home', moduleId: 'home/home'},
-      {route: 'login', name: 'login', moduleId: 'auth/login', title: 'Log in', nav: true},
-      {route: 'signup', name: 'signup', moduleId: 'auth/signup', title: 'Sign up', nav: true},
+      {route: 'auth/login', name: 'login', moduleId: 'auth/login', title: 'Log in', nav: true},
+      {route: 'auth/signup', name: 'signup', moduleId: 'auth/signup', title: 'Sign up', nav: true},
     ]);
   }
 }
