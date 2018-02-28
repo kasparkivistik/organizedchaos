@@ -21,8 +21,6 @@ public class User {
     private String email;
     @Transient
     private String passwordConfirm;
-    @ManyToMany
-    private Set<Role> roles;
     @OneToMany
     private List<Note> notes;
 }

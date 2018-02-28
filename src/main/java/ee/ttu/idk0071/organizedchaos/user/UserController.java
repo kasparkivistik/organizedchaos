@@ -1,6 +1,5 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
-import ee.ttu.idk0071.organizedchaos.security.SecurityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,18 +16,15 @@ public class UserController {
     private UserService userService;
 
     @Resource
-    private SecurityService securityService;
-
-    @Resource
     private UserValidator userValidator;
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/signup", method = RequestMethod.GET)
     public String signUp(Model model) {
         model.addAttribute("userForm", new User());
         return "signup";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/signup", method = RequestMethod.POST)
     public String signUp(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
         userValidator.validate(userForm, bindingResult);
 
@@ -37,12 +33,10 @@ public class UserController {
         }
 
         userService.save(userForm);
-        securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm());
-
         return "redirect:/welcome";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null)
             model.addAttribute("error", "Your email or password is invalid.");
@@ -53,8 +47,8 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
-        return "index";
+        return "";
     }
 }
