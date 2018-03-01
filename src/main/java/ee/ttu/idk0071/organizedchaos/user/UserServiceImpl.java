@@ -3,6 +3,7 @@ package ee.ttu.idk0071.organizedchaos.user;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service
@@ -24,4 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(long id) { return userRepository.findById(id);}
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

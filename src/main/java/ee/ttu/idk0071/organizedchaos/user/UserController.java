@@ -2,12 +2,13 @@ package ee.ttu.idk0071.organizedchaos.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -18,22 +19,10 @@ public class UserController {
     @Resource
     private UserValidator userValidator;
 
-    @RequestMapping(value = "/users/add", method = RequestMethod.GET)
-    public String signUp(Model model) {
-        model.addAttribute("userForm", new User());
-        return "signup";
-    }
-
     @RequestMapping(value = "/users/add", method = RequestMethod.POST, consumes = "application/json")
-    public String signUp(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-
-        userService.save(userForm);
-        return "redirect:/welcome";
+    public User signUp(@RequestBody User user) {
+        userService.save(user);
+        return user;
     }
 
     @RequestMapping(value = "/users/login", method = RequestMethod.GET)
@@ -47,8 +36,15 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "";
+    @RequestMapping(value="/users", method=RequestMethod.GET)
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
+
+    @RequestMapping(value = "/users/{id}", method=RequestMethod.GET)
+    public User getUserById(@PathVariable("id") long id) {
+        return userService.findById(id);
+    }
+
+
 }
