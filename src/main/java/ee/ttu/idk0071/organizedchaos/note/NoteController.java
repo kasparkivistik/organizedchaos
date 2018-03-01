@@ -18,7 +18,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "notes/add", method = RequestMethod.POST, consumes = "application/json")
-    public Note addNote(Note note) {
+    public Note addNote(@RequestBody Note note) {
         return noteService.addNote(note);
     }
 
