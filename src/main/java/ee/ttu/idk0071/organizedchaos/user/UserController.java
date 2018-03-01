@@ -18,13 +18,13 @@ public class UserController {
     @Resource
     private UserValidator userValidator;
 
-    @RequestMapping(value = "/auth/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/add", method = RequestMethod.GET)
     public String signUp(Model model) {
         model.addAttribute("userForm", new User());
         return "signup";
     }
 
-    @RequestMapping(value = "/auth/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/users/add", method = RequestMethod.POST, consumes = "application/json")
     public String signUp(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
         userValidator.validate(userForm, bindingResult);
 
@@ -36,7 +36,7 @@ public class UserController {
         return "redirect:/welcome";
     }
 
-    @RequestMapping(value = "/auth/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null)
             model.addAttribute("error", "Your email or password is invalid.");

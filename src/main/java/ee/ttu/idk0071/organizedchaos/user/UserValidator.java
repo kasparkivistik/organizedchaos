@@ -24,19 +24,15 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
         if (user.getEmail().length() < 4 || user.getEmail().length() > 32) {
-            errors.rejectValue("email", "Dublicate.userForm.email");
+            errors.rejectValue("email", "Duplicate.userForm.email");
         }
-        if (userService.findByEmail(user.getEmail()) != null) {
+        if (userService.findByEmail(user.getEmail()) == null) {
             errors.rejectValue("email", "Duplicate.userForm.email");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
-        }
-
-        if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
 }

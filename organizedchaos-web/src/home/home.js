@@ -1,4 +1,5 @@
 import {Note} from './note';
+import {HttpClient, json} from 'aurelia-fetch-client';
 
 let note;
 
@@ -11,6 +12,9 @@ export class home {
   }
 
   addNote() {
+
+
+
     note = new Note(this.noteHeader, this.noteDescription);
     if (this.noteDescription && this.noteHeader) {
       this.notes.push(note);
@@ -18,16 +22,6 @@ export class home {
       this.noteHeader = '';
     }
     return note;
-  }
-
-  saveNote() {
-    let noteHtml = "<div class='bs-component'><div class='card text-white bg-primary mb-3' style='max-width: 20rem;\'>";
-    note += "<div class='card-header'>";
-    note += this.addNote().header;
-    note += "<span onclick='removeNote(this)' style='float: right; cursor: pointer'>✖️</span>️</div>";
-    note += "<div class='card-body'><p class='card-text'>" + this.addNote().description + "</p>";
-    note += "</div></div></div>";
-    document.getElementById("container").innerHTML = noteHtml;
   }
 
   removeNote(note) {
