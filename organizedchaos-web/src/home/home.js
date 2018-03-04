@@ -1,7 +1,7 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 
-let note;
+let client = new HttpClient();
 
 export class home {
 
@@ -9,25 +9,65 @@ export class home {
     this.notes = [];
     this.noteDescription = '';
     this.noteHeader = '';
+    this.editableNoteId = undefined;
+    this.editableNote = undefined;
+
+    this.getNotes();
   }
 
   addNote() {
-
-
-
-    note = new Note(this.noteHeader, this.noteDescription);
     if (this.noteDescription && this.noteHeader) {
-      this.notes.push(note);
+      const note = new Note(this.noteHeader, this.noteDescription);
+      client.fetch('http://localhost:8080/notes/add', {
+        'method': "POST",
+        'body': json(note)
+      }).then(response => {
+        console.log("note added", response.json());
+        this.getNotes();
+      });
       this.noteDescription = '';
       this.noteHeader = '';
     }
-    return note;
   }
 
-  removeNote(note) {
-    let index = this.notes.indexOf(note);
-    if (index !== -1) {
-      this.notes.splice(index, 1);
-    }
+  getNotes() {
+    client.fetch('http://localhost:8080/notes')
+      .then(response => response.json())
+      .then(notes => {
+        this.notes = notes;
+        console.log("notes loaded", this.notes);
+      });
   }
+
+  removeNote(id) {
+    client.fetch('http://localhost:8080/notes/' + id, {
+      'method': "DELETE"
+    }).then(() => {
+      console.log("note deleted");
+      this.getNotes();
+    });
+  }
+
+  editNote(note) {
+    this.editableNoteId = note.id;
+    this.editableNote = new Note(note.name, note.content);
+  }
+
+  cancelEdit(){
+    this.editableNoteId = undefined;
+  }
+
+  saveNote(){
+    this.editableNote.id = this.editableNoteId;
+    client.fetch('http://localhost:8080/notes/save', {
+      'method': "POST",
+      'body': json(this.editableNote)
+    }).then(response => {
+      console.log("note saved", response.json());
+      this.getNotes();
+      this.cancelEdit();
+    });
+  }
+
+
 }

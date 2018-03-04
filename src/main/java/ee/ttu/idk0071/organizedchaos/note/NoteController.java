@@ -1,14 +1,11 @@
 package ee.ttu.idk0071.organizedchaos.note;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping(value = "notes")
 public class NoteController {
 
     private NoteService noteService;
@@ -17,18 +14,28 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @RequestMapping(value = "notes/add", method = RequestMethod.POST, consumes = "application/json")
+    @PostMapping(value = "add")
     public Note addNote(@RequestBody Note note) {
         return noteService.addNote(note);
     }
 
-    @RequestMapping(value="/notes", method=RequestMethod.GET)
+    @GetMapping
     public List<Note> getAllNotes() {
         return noteService.getAllNotes();
     }
 
-    @RequestMapping(value = "/notes/{id}", method=RequestMethod.GET)
+    @DeleteMapping(value = "{id}")
+    public void deleteNote(@PathVariable("id") long id) {
+        noteService.deleteNote(id);
+    }
+
+    @RequestMapping(value = "{id}", method=RequestMethod.GET)
     public Note getNote(@PathVariable("id") long id) {
         return noteService.getNoteById(id);
+    }
+
+    @PostMapping(value = "save")
+    public Note saveNote(@RequestBody Note note) {
+        return noteService.saveNote(note);
     }
 }

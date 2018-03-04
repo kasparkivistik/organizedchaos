@@ -13,44 +13,31 @@
                   <div class="card-header">
                     <input type="text" placeholder="Title" class="form-control" value.bind="noteHeader"/></div>
                   <div class="card-body">
-                    <form submit.trigger="addNote()">
+                    <form>
                       <div class="form-group">
                         <textarea class="form-control" rows="3" placeholder="Content" value.bind="noteDescription"></textarea>
                       </div>
-                      <button type="submit" onclick="saveNote()" class="btn btn-outline-primary">Add</button>
+                      <button type="button" click.delegate="addNote()" class="btn btn-outline-primary">Add</button>
                     </form>
                   </div>
                 </div>
               </div>
-              <!--<tr>
-                <td repeat.for="note of notes">
-                  <text></text>
-                </td>
-              </tr>-->
-              <div class="bs-component">
-                <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-                  <div class="card-header">${noteHeader}</div>
-                  <div class="card-body">
-                    <p class="card-text">${noteDescription}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="bs-component">
+              <div class="bs-component" repeat.for="note of notes">
                 <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                  <div class="card-header">Suusad<span onclick="removeNote(this)" style="float: right; cursor: pointer">✖️</span>️</div>
-                    <div class="card-body">
-                      <p class="card-text">Vii suusad Reinu juurde määrimisse.</p>
-                    </div>
-                </div>
-              </div>
-                <div class="bs-component">
-                  <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Tarkvaratehnika<span onclick="removeNote(this)" style="float: right; cursor: pointer">✖️</span>️</div>
-                    <div class="card-body">
-                      <p class="card-text">Esmane HTML</p>
-                    </div>
+                  <div class="card-header">
+                    <span if.bind="editableNoteId==note.id" click.delegate="cancelEdit()" style="float: right; cursor: pointer">✖️</span>
+                    <span if.bind="editableNoteId==note.id" click.delegate="saveNote()" style="float: right; cursor: pointer">✔️</span>
+                    <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.name"/>
+                    <span if.bind="editableNoteId!=note.id">${note.name}</span>
+                    <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
+                    <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️
+                  </div>
+                  <div class="card-body">
+                    <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.content"/>
+                    <p if.bind="editableNoteId!=note.id" class="card-text">${note.content}</p>
                   </div>
                 </div>
+              </div>
           </div>
         </div>
         <div class="col-lg-8 col-md-6">
