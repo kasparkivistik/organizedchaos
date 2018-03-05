@@ -19,7 +19,7 @@ public class NoteService {
     }
 
     public List<Note> getAllNotes() {
-        List<Note> notes = (List<Note>) noteRepository.findAll();
+        List<Note> notes = noteRepository.findAll();
         Collections.reverse(notes);
         return notes;
     }
