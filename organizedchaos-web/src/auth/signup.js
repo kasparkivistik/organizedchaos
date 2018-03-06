@@ -7,15 +7,6 @@ export class signup {
   }
 
   userData = {};
-  userList = [];
-
-  activate() {
-    let client = new HttpClient();
-
-    client.fetch('http://localhost:8080/users')
-      .then(response => response.json())
-      .then(users => this.userList = users);
-  }
 
   addUser() {
     let client = new HttpClient();
@@ -25,5 +16,6 @@ export class signup {
       'body': json(this.userData)
     })
       .then(response => response.json());
+    window.location.replace("http://localhost:9000")
     }
 }
