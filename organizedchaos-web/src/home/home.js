@@ -18,7 +18,7 @@ export class home {
   addNote() {
     if (this.noteDescription && this.noteHeader) {
       const note = new Note(this.noteHeader, this.noteDescription);
-      client.fetch('http://localhost:8080/notes/add', {
+      client.fetch('http://localhost:8080/notes/save', {
         'method': "POST",
         'body': json(note)
       }).then(response => {

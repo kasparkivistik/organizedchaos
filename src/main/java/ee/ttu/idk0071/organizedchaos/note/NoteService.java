@@ -14,18 +14,10 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public Note addNote(Note note) {
-        return noteRepository.save(note);
-    }
-
     public List<Note> getAllNotes() {
         List<Note> notes = noteRepository.findAll();
         Collections.reverse(notes);
         return notes;
-    }
-
-    public Note getNoteById(long id) {
-        return noteRepository.getNoteById(id);
     }
 
     public void deleteNote(long id) {

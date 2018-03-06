@@ -14,11 +14,6 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping(value = "add")
-    public Note addNote(@RequestBody Note note) {
-        return noteService.addNote(note);
-    }
-
     @GetMapping
     public List<Note> getAllNotes() {
         return noteService.getAllNotes();
@@ -27,11 +22,6 @@ public class NoteController {
     @DeleteMapping(value = "{id}")
     public void deleteNote(@PathVariable("id") long id) {
         noteService.deleteNote(id);
-    }
-
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public Note getNote(@PathVariable("id") long id) {
-        return noteService.getNoteById(id);
     }
 
     @PostMapping(value = "save")
