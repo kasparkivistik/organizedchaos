@@ -24,3 +24,8 @@ src/resources/attributes/
 src/resources/binding-behaviors/
 src/resources/elements/
 src/resources/value-converters/
+.DS_Store
+organizedchaos-web/src/resources/attributes/
+organizedchaos-web/src/resources/binding-behaviors/
+organizedchaos-web/src/resources/elements/
+organizedchaos-web/src/resources/value-converters/
