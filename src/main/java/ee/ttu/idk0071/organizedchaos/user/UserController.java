@@ -16,10 +16,13 @@ public class UserController {
     @Resource
     private UserValidator userValidator;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.POST, consumes = "application/json")
     public User signUp(@RequestBody User user) {
-        userService.save(user);
-        return user;
+        return userService.save(user);
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -42,4 +45,7 @@ public class UserController {
     public User getUserById(@PathVariable("id") long id) {
         return userService.findById(id);
     }
+
+    @RequestMapping(value = "{email}", method = RequestMethod.GET)
+    public User getUserByEmail(@PathVariable("email") String email) { return userService.findByEmail(email);}
 }

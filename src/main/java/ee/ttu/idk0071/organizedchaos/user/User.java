@@ -1,6 +1,7 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
 import ee.ttu.idk0071.organizedchaos.note.Note;
+import ee.ttu.idk0071.organizedchaos.role.Role;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,4 +18,6 @@ public class User {
     private String email;
     @OneToMany
     private List<Note> notes;
+    @ManyToMany
+    private List<Role> roles;
 }
