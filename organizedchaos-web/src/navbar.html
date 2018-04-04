@@ -17,12 +17,20 @@
           <a class="nav-link" href="#">Notes</a>
         </li>
       </ul>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" if.bind="!authenticated">
         <li class="nav-item">
           <a class="nav-link" href="#/auth/login">Log in</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#/auth/signup">Sign up</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav" if.bind="authenticated">
+        <li class="nav-item">
+          <a class="nav-link">Signed in as ${}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" click.delegate="auth.logout()">Log out</a>
         </li>
       </ul>
     </div>

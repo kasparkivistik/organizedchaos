@@ -1,4 +1,5 @@
 import {LogManager} from 'aurelia-framework';
+import {AuthService} from "./AuthService";
 
 export class App {
 

@@ -1,4 +1,6 @@
 import {HttpClient, json} from "aurelia-fetch-client";
+import environment from '../environment';
+
 
 export class signup {
 
@@ -13,7 +15,7 @@ export class signup {
 
     if ($('#password').val() === $('#password-confirm').val()) {
 
-      client.fetch('http://localhost:8080/users/add', {
+      client.fetch(environment.url + 'users/add', {
         'method': "POST",
         'body': json(this.userData)
       })

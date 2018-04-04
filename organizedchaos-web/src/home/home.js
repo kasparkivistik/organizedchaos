@@ -1,5 +1,6 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
+import environment from '../environment';
 
 let client = new HttpClient();
 
@@ -31,7 +32,7 @@ export class home {
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes')
+    client.fetch(environment.url + 'notes')
       .then(response => response.json())
       .then(notes => {
         this.notes = notes;
@@ -40,7 +41,7 @@ export class home {
   }
 
   removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id, {
+    client.fetch(environment.url + id, {
       'method': "DELETE"
     }).then(() => {
       console.log("note deleted");
@@ -59,7 +60,7 @@ export class home {
 
   saveNote(){
     this.editableNote.id = this.editableNoteId;
-    client.fetch('http://localhost:8080/notes/save', {
+    client.fetch(environment.url + 'notes/save', {
       'method': "POST",
       'body': json(this.editableNote)
     }).then(response => {
