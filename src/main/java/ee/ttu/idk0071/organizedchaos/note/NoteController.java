@@ -1,5 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.note;
 
+import ee.ttu.idk0071.organizedchaos.user.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +28,10 @@ public class NoteController {
     @PostMapping(value = "save")
     public Note saveNote(@RequestBody Note note) {
         return noteService.saveNote(note);
+    }
+
+    @GetMapping(value = "user/{user}")
+    public List<Note> getNotesByUser(@PathVariable("user") User user) {
+        return noteService.getNotesByUser(user);
     }
 }

@@ -1,7 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
 import ee.ttu.idk0071.organizedchaos.note.Note;
-import ee.ttu.idk0071.organizedchaos.role.Role;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,10 +13,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(unique = true)
+    private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     @OneToMany
     private List<Note> notes;
-    @ManyToMany
-    private List<Role> roles;
+    private UserRoles role;
 }

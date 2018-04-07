@@ -1,5 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.note;
 
+import ee.ttu.idk0071.organizedchaos.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -26,5 +27,9 @@ public class NoteService {
 
     public Note saveNote(Note note) {
         return noteRepository.save(note);
+    }
+
+    public List<Note> getNotesByUser(User user) {
+        return noteRepository.findAllByUser(user.getId());
     }
 }
