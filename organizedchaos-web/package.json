@@ -12,14 +12,16 @@
     "aurelia-animator-css": "^1.0.2",
     "aurelia-auth": "^3.0.5",
     "aurelia-bootstrapper": "^2.1.1",
+    "aurelia-fetch-client": "latest",
     "aurelia-framework": "latest",
+    "aurelia-pal-browser": "latest",
     "aurelia-router": "latest",
     "auth0-js": "^9.3.2",
     "bluebird": "^3.4.1",
+    "fullcalendar": "^3.9.0",
+    "jquery": "^3.3.1",
     "requirejs": "^2.3.2",
-    "text": "github:requirejs/text#latest",
-    "aurelia-pal-browser": "latest",
-    "aurelia-fetch-client": "latest"
+    "text": "github:requirejs/text#latest"
   },
   "peerDependencies": {},
   "devDependencies": {
@@ -59,7 +61,8 @@
     "minimatch": "^3.0.2",
     "through2": "^2.0.1",
     "uglify-js": "^3.0.19",
-    "vinyl-fs": "^2.4.3"
+    "vinyl-fs": "^2.4.3",
+    "webpack": "^4.5.0"
   },
   "scripts": {
     "dev": "au run --watch"

@@ -1,7 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,17 +25,6 @@ public class UserController {
     public User signUp(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userService.save(user);
-    }
-
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your email or password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "login";
     }
 
     @GetMapping
