@@ -80,7 +80,10 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
-          "text"
+          "text",
+          "jquery",
+          "moment",
+          "fullcalendar"
         ]
       }
     ],
