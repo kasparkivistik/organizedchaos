@@ -19,8 +19,12 @@ export class notes {
     if (this.noteDescription && this.noteHeader) {
       const note = new Note(this.noteHeader, this.noteDescription);
       client.fetch('http://localhost:8080/notes/save', {
-        'method': "POST",
-        'body': json(note)
+        method: "POST",
+        headers: {
+          'Authorization': sessionStorage.getItem("token"),
+          'Content-Type': 'application/json'
+        },
+        body: json(note)
       }).then(response => {
         console.log("note added", response.json());
         this.getNotes();
@@ -31,7 +35,13 @@ export class notes {
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes')
+    client.fetch('http://localhost:8080/notes', {
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+      method: "GET"
+    })
       .then(response => response.json())
       .then(notes => {
         this.notes = notes;
