@@ -16,7 +16,7 @@ public class LoginController {
     public ResponseEntity<Token> getToken(@RequestBody User user) {
         int i = 0;
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> entity = new HttpEntity<>("{\"email\":" + user.getEmail() + ",\"password\":" + user.getPassword() + "}");
+        HttpEntity<String> entity = new HttpEntity<>("{\"email\":\"" + user.getEmail() + "\",\"password\":\"" + user.getPassword() + "\"}");
         ResponseEntity answer = restTemplate.exchange("http://localhost:8080/login", HttpMethod.POST, entity, String.class);
         Token token = new Token();
         token.setToken(answer.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
