@@ -1,6 +1,8 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
+import $ from "jquery";
+import 'fullcalendar';
 
 let client = new HttpClient();
 
@@ -70,5 +72,33 @@ export class home {
     });
   }
 
+  attached() {
+    $('#calendar').fullCalendar({
+      defaultView: 'listWeek',
+      header:{
+        right: "next",
+        center: "title",
+        left: "prev"
+      },
+      firstDay:1,
+      weekNumbers:1,
+      events: [
+        {
+          title  : 'org juhtimine jääb ära',
+          start  : '2018-04-12'
+        },
+        {
+          title  : 'tarkvaratehnika allnighterid',
+          start  : '2018-04-13',
+          end    : '2018-04-15'
+        },
+        {
+          title  : 'Keit reisile',
+          start  : '2018-04-26T12:30:00',
+          allDay : false // will make the time show
+        }
+      ]
+    })
+  }
 
 }
