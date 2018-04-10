@@ -75,7 +75,6 @@ public class NoteServiceTests {
         sampleNotes.add(sampleNote2);
 
         given(noteService.getAllNotes()).willReturn(sampleNotes);
-        given(noteService.getNotesByUser(sampleUser1)).willReturn(sampleNotes);
 
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders

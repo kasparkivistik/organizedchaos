@@ -29,9 +29,4 @@ public class NoteController {
     public Note saveNote(@RequestBody Note note) {
         return noteService.saveNote(note);
     }
-
-    @GetMapping(value = "user/{user}")
-    public List<Note> getNotesByUser(@PathVariable("user") User user) {
-        return noteService.getNotesByUser(user);
-    }
 }
