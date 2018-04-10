@@ -24,6 +24,7 @@ public class UserController {
     @RequestMapping(value = "add", method = RequestMethod.POST, consumes = "application/json")
     public User signUp(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setUsername(user.getEmail());
         return userService.save(user);
     }
 

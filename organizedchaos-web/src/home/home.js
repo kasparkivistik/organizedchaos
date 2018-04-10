@@ -22,8 +22,12 @@ export class home {
     if (this.noteDescription && this.noteHeader) {
       const note = new Note(this.noteHeader, this.noteDescription);
       client.fetch('http://localhost:8080/notes/save', {
-        'method': "POST",
-        'body': json(note)
+        method: "POST",
+        headers: {
+          'Authorization': sessionStorage.getItem("token"),
+          'Content-Type': 'application/json'
+        },
+        body: json(note)
       }).then(response => {
         console.log("note added", response.json());
         this.getNotes();
@@ -34,7 +38,13 @@ export class home {
   }
 
   getNotes() {
-    client.fetch(environment.url + 'notes')
+    client.fetch('http://localhost:8080/notes', {
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+      method: "GET"
+    })
       .then(response => response.json())
       .then(notes => {
         this.notes = notes;
@@ -43,8 +53,12 @@ export class home {
   }
 
   removeNote(id) {
-    client.fetch(environment.url + id, {
-      'method': "DELETE"
+    client.fetch('http://localhost:8080/notes/' + id , {
+      method: "DELETE",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
     }).then(() => {
       console.log("note deleted");
       this.getNotes();
@@ -62,9 +76,13 @@ export class home {
 
   saveNote(){
     this.editableNote.id = this.editableNoteId;
-    client.fetch(environment.url + 'notes/save', {
-      'method': "POST",
-      'body': json(this.editableNote)
+    client.fetch('http://localhost:8080/notes/save', {
+      method: "POST",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+      body: json(this.editableNote)
     }).then(response => {
       console.log("note saved", response.json());
       this.getNotes();

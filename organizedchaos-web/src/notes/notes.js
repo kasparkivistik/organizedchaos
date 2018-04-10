@@ -50,8 +50,12 @@ export class notes {
   }
 
   removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id, {
-      'method': "DELETE"
+    client.fetch('http://localhost:8080/notes/' + id , {
+      method: "DELETE",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
     }).then(() => {
       console.log("note deleted");
       this.getNotes();
@@ -70,8 +74,12 @@ export class notes {
   saveNote(){
     this.editableNote.id = this.editableNoteId;
     client.fetch('http://localhost:8080/notes/save', {
-      'method': "POST",
-      'body': json(this.editableNote)
+      method: "POST",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+      body: json(this.editableNote)
     }).then(response => {
       console.log("note saved", response.json());
       this.getNotes();
