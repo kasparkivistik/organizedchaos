@@ -1,5 +1,6 @@
 package ee.ttu.idk0071.organizedchaos.note;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.ttu.idk0071.organizedchaos.user.User;
 import org.apache.catalina.filters.CorsFilter;
 import org.hamcrest.Matchers;
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -44,6 +45,12 @@ public class NoteServiceTests {
 
     @InjectMocks
     private NoteController noteController;
+
+    //@MockBean
+    //private UserService userService;
+
+    //@InjectMocks
+    //private UserController userController;
 
     private Note sampleNote1;
     private Note sampleNote2;
@@ -68,11 +75,15 @@ public class NoteServiceTests {
 
         sampleUser1 = new User();
         sampleUser1.setId(TEST_USER_ID);
-        sampleNote1.setUser(sampleUser1);
+        sampleUser1.setUsername("keit");
+        sampleUser1.setPassword("123");
+        sampleUser1.setEmail("keit@keit.ee");
 
         sampleNotes = new ArrayList<>();
         sampleNotes.add(sampleNote1);
         sampleNotes.add(sampleNote2);
+
+        sampleNote1.setUser(sampleUser1);
 
         given(noteService.getAllNotes()).willReturn(sampleNotes);
 
@@ -86,7 +97,6 @@ public class NoteServiceTests {
 
     @Test
     public void testGetAllNotesSuccess() throws Exception {
-
         Mockito.when(noteService.getAllNotes()).thenReturn(sampleNotes);
         mockMvc.perform(get("/notes"))
                 .andExpect(status().isOk())
@@ -108,7 +118,13 @@ public class NoteServiceTests {
 
     @Test
     public void testSaveNote() throws Exception {
-
+        //when(noteService.getNoteById(TEST_NOTE_ID1)).thenReturn(sampleNote1);
+        mockMvc.perform(post("/notes/save")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(asJsonString(sampleNote1)))
+                .andExpect(status().isCreated());
+        verify(noteService, times(1)).saveNote(sampleNote1);
+        verifyNoMoreInteractions(noteService);
     }
 
     @Test
@@ -122,8 +138,31 @@ public class NoteServiceTests {
 
     @Test
     public void testGetNotesByUser() throws Exception {
-
+        when(noteService.getNotesByUser(sampleUser1)).thenReturn(sampleNotes);
+        mockMvc.perform(get("notes/{user}", sampleUser1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.username", is("keit")));
+        verify(noteService, times(1)).getNotesByUser(sampleUser1);
+        verifyNoMoreInteractions(noteService);
     }
 
+    @Test
+    public void testGetNotesByUserFail404NotFound() throws Exception {
+        when(noteService.getNotesByUser(sampleUser1)).thenReturn(null);
+        mockMvc.perform(get("/notes/{user}", 1))
+                .andExpect(status().isNotFound());
+        verify(noteService, times(1)).getNotesByUser(sampleUser1);
+        verifyNoMoreInteractions(noteService);
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
