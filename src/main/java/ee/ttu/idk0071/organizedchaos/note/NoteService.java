@@ -32,4 +32,8 @@ public class NoteService {
     public List<Note> getNotesByUser(User user) {
         return noteRepository.findAllByUser(user.getId());
     }
+
+    public Note getNoteById(long id) {
+        return noteRepository.findOne(id);
+    }
 }
