@@ -2,9 +2,6 @@ package ee.ttu.idk0071.organizedchaos.note;
 
 import ee.ttu.idk0071.organizedchaos.user.User;
 import ee.ttu.idk0071.organizedchaos.user.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,5 +34,13 @@ public class NoteService {
         user.setId(userService.findCurrentUserId());
         note.setUser(user);
         return noteRepository.save(note);
+    }
+
+    public List<Note> getNotesByUser(User user) {
+        return (List<Note>) noteRepository.findOne(user.getId());
+    }
+
+    public Note getNoteById(long id) {
+        return noteRepository.findOne(id);
     }
 }
