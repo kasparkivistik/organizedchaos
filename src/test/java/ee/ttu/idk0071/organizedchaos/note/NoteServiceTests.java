@@ -118,13 +118,20 @@ public class NoteServiceTests {
 
     @Test
     public void testSaveNote() throws Exception {
-        //when(noteService.getNoteById(TEST_NOTE_ID1)).thenReturn(sampleNote1);
+        when(noteService.getNoteById(TEST_NOTE_ID1)).thenReturn(sampleNote1);
         mockMvc.perform(post("/notes/save")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(asJsonString(sampleNote1)))
                 .andExpect(status().isCreated());
+
+                //.andExpect(header().string("location", containsString("http://localhost/notes/save")))
+                //.andExpect(jsonPath("$.id", Matchers.is(1)))
+                //.andExpect(jsonPath("$.content", Matchers.is("Content")))
+                //.andExpect(jsonPath("$.name", Matchers.is("Title")))
+                //.andExpect(jsonPath("$.complete", Matchers.is(true)));
         verify(noteService, times(1)).saveNote(sampleNote1);
         verifyNoMoreInteractions(noteService);
+        System.out.println(asJsonString(sampleNote1));
     }
 
     @Test
