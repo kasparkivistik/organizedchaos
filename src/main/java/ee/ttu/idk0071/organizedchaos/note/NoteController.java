@@ -1,6 +1,5 @@
 package ee.ttu.idk0071.organizedchaos.note;
 
-import ee.ttu.idk0071.organizedchaos.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "notes")
+@RequestMapping(value = "api/notes")
 public class NoteController {
 
     private NoteService noteService;
@@ -29,17 +28,17 @@ public class NoteController {
 
     @PostMapping(value = "save")
     public ResponseEntity<Note> saveNote(@RequestBody Note note) {
-         noteService.saveNote(note);
-         return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(noteService.saveNote(note), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "user/{user}")
-    public List<Note> getNotesByUser(@PathVariable("user") User user) {
-        return noteService.getNotesByUser(user);
+    public List<Note> getNotesByUser(@PathVariable("user") long userId) {
+        return noteService.findAllByUserId(userId);
     }
 
     @GetMapping(value = "{id}")
     public Note getNoteById(@PathVariable("id") long id) {
         return noteService.getNoteById(id);
     }
+
 }

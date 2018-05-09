@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "users")
+@RequestMapping(value = "api/users")
 public class UserController {
 
     @Resource
@@ -21,7 +21,7 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST, consumes = "application/json")
+    @PostMapping()
     public User signUp(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setUsername(user.getEmail());
@@ -33,11 +33,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/getById/{id}")
     public User getUserById(@PathVariable("id") long id) {
         return userService.findById(id);
     }
 
-    @RequestMapping(value = "/getByEmail/{email}", method = RequestMethod.GET)
+    @GetMapping(value = "/getByEmail/{email}")
     public User getUserByEmail(@PathVariable("email") String email) { return userService.findByEmail(email);}
 }

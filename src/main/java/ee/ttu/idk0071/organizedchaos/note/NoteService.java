@@ -36,8 +36,8 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public List<Note> getNotesByUser(User user) {
-        return (List<Note>) noteRepository.findOne(user.getId());
+    public List<Note> findAllByUserId(long userId) {
+        return noteRepository.findAllByUserId(userId);
     }
 
     public Note getNoteById(long id) {

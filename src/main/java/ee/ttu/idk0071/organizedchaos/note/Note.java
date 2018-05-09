@@ -4,6 +4,7 @@ import ee.ttu.idk0071.organizedchaos.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -17,4 +18,6 @@ public class Note {
     private boolean complete;
     @ManyToOne
     private User user;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 }
