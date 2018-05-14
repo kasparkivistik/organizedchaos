@@ -18,10 +18,13 @@ public class LoginController {
     @PostMapping(value = SecurityConstants.GET_TOKEN_URL)
     public ResponseEntity<Token> getToken(@RequestBody User user) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> entity = new HttpEntity<>("{\"email\":\"" + user.getEmail() + "\",\"password\":\"" + user.getPassword() + "\",\"username\":\"" + user.getUsername() + "}");
+        System.out.println(user.getPassword());
+        System.out.println(user.getEmail());
+        HttpEntity<String> entity = new HttpEntity<>("{\"email\":\"" + user.getUsername() + "\",\"password\":\"" + user.getPassword() + "\"}");
         ResponseEntity answer = restTemplate.exchange("http://localhost:8080/login", HttpMethod.POST, entity, String.class);
         Token token = new Token();
         token.setToken(answer.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
+        System.out.println(token);
         return ResponseEntity.ok(token);
     }
 

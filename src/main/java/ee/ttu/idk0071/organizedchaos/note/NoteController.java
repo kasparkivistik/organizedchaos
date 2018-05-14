@@ -17,8 +17,8 @@ public class NoteController {
     }
 
     @GetMapping
-    public List<Note> getAllNotes() {
-        return noteService.getAllNotes();
+    public ResponseEntity<List<Note>> getAllNotes() {
+        return new ResponseEntity<>(noteService.getAllNotes(), HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(value = "{id}")
@@ -32,13 +32,13 @@ public class NoteController {
     }
 
     @GetMapping(value = "user/{user}")
-    public List<Note> getNotesByUser(@PathVariable("user") long userId) {
-        return noteService.findAllByUserId(userId);
+    public ResponseEntity<List<Note>> getNotesByUser(@PathVariable("user") long userId) {
+        return new ResponseEntity<>(noteService.findAllByUserId(userId), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "{id}")
-    public Note getNoteById(@PathVariable("id") long id) {
-        return noteService.getNoteById(id);
+    public ResponseEntity<Note> getNoteById(@PathVariable("id") long id) {
+        return new ResponseEntity<>(noteService.getNoteById(id), HttpStatus.NOT_FOUND);
     }
 
 }
