@@ -1,7 +1,6 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
-import moment from 'moment';
 
 let client = new HttpClient();
 
@@ -96,7 +95,7 @@ export class notes {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
-    }).then(response => {
+    }).then(() => {
       console.log("note updated");
       this.getNotes();
     });
