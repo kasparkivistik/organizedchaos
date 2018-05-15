@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'fullcalendar';
+import moment from "moment";
 
 export class calendar {
 
@@ -10,24 +11,35 @@ export class calendar {
   attached() {
     $('#calendar').fullCalendar({
       header:{
-        right: "next",
-        center: "title",
-        left: "prev"
+        right: 'addEventButton, next',
+        center: '',
+        left: 'prev'
       },
       firstDay:1,
       weekNumbers:1,
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function () {
+            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            var date = moment(dateStr);
+
+            if (date.isValid()) {
+              $('#calendar').fullCalendar('renderEvent', {
+                title: 'dynamic event',
+                start: date,
+                allDay: true
+              });
+              alert('Great. Now, update your database...');
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      },
       eventSources: [{
         events: [
-          {
-            title  : 'Tarkvaratehnika II iteratsiooni kaitsmine',
-            start  : '2018-04-11T14:00:00',
-            allDay: false
-          },
-          {
-            title  : 'Keit reisil',
-            start  : '2018-04-26',
-            end    : '2018-05-03'
-          }
+
         ],
         textColor: 'black'
       }],
