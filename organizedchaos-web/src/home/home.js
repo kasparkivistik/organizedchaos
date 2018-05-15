@@ -1,8 +1,8 @@
-import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
 import $ from "jquery";
 import 'fullcalendar';
+import {Note} from "../notes/note";
 
 let client = new HttpClient();
 
@@ -10,18 +10,16 @@ export class home {
 
   constructor() {
     this.notes = [];
-    this.noteDescription = '';
-    this.noteHeader = '';
-    this.editableNoteId = undefined;
-    this.editableNote = undefined;
+    this.noteContent = '';
+    this.noteDate = '';
 
     this.getNotes();
   }
 
   addNote() {
-    if (this.noteDescription && this.noteHeader) {
-      const note = new Note(this.noteHeader, this.noteDescription);
-      client.fetch('http://localhost:8080/notes/save', {
+    if (this.noteContent && this.noteDate) {
+      const note = new Note(this.noteDate, this.noteContent);
+      client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
           'Authorization': sessionStorage.getItem("token"),
@@ -32,13 +30,13 @@ export class home {
         console.log("note added", response.json());
         this.getNotes();
       });
-      this.noteDescription = '';
-      this.noteHeader = '';
+      this.noteContent = '';
+      this.noteDate = '';
     }
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes', {
+    client.fetch(environment.url + 'api/notes', {
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
@@ -52,41 +50,16 @@ export class home {
       });
   }
 
-  removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id , {
-      method: "DELETE",
-      headers: {
-        'Authorization': sessionStorage.getItem("token"),
-        'Content-Type': 'application/json'
-      },
-    }).then(() => {
-      console.log("note deleted");
-      this.getNotes();
-    });
-  }
-
-  editNote(note) {
-    this.editableNoteId = note.id;
-    this.editableNote = new Note(note.name, note.content);
-  }
-
-  cancelEdit(){
-    this.editableNoteId = undefined;
-  }
-
-  saveNote(){
-    this.editableNote.id = this.editableNoteId;
-    client.fetch('http://localhost:8080/notes/save', {
+  setIsComplete(id) {
+    client.fetch(environment.url + 'api/notes/setComplete?id=' + id + '&complete=true', {
       method: "POST",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
-      body: json(this.editableNote)
-    }).then(response => {
-      console.log("note saved", response.json());
+    }).then(() => {
+      console.log("note updated");
       this.getNotes();
-      this.cancelEdit();
     });
   }
 
@@ -118,5 +91,4 @@ export class home {
       ]
     })
   }
-
 }

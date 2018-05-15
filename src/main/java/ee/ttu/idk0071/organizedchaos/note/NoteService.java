@@ -18,29 +18,34 @@ public class NoteService {
         this.userService = userService;
     }
 
-    public List<Note> getAllNotes() {
-        long userID = userService.findCurrentUserId();
-        List<Note> notes = noteRepository.findAllByUserId(userID);
+    List<Note> getAllNotes() {
+        long userId = userService.findCurrentUserId().getId();
+        List<Note> notes = getNotesByUser(userId);
         Collections.reverse(notes);
         return notes;
     }
 
-    public void deleteNote(long id) {
+    void deleteNote(long id) {
         noteRepository.delete(id);
     }
 
-    public Note saveNote(Note note) {
-        User user = new User();
-        user.setId(userService.findCurrentUserId());
+    void saveNote(Note note) {
+        User user = userService.findCurrentUserId();
         note.setUser(user);
-        return noteRepository.save(note);
+        noteRepository.save(note);
     }
 
-    public List<Note> getNotesByUser(User user) {
-        return (List<Note>) noteRepository.findOne(user.getId());
+    List<Note> getNotesByUser(Long userId) {
+        return noteRepository.findAllByUserIdOrderByDateAsc(userId);
     }
 
-    public Note getNoteById(long id) {
+    Note getNoteById(long id) {
         return noteRepository.findOne(id);
+    }
+
+    void setComplete(boolean isComplete, long id) {
+        Note note = getNoteById(id);
+        note.setComplete(isComplete);
+        noteRepository.save(note);
     }
 }

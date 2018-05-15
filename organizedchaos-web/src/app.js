@@ -1,5 +1,4 @@
 import {LogManager} from 'aurelia-framework';
-//import {AuthService} from "./AuthService";
 
 export class App {
 
@@ -13,7 +12,7 @@ export class App {
     config.map([
       {route: ['', 'home'], name: 'home', moduleId: 'home/home'},
       {route: 'cal/calendar', name: 'calendar', moduleId: 'cal/calendar', title: 'Calendar', nav: true},
-      {route: 'notes/notes', name: 'notes', moduleId: 'notes/notes', title: 'notes', nav: true},
+      {route: 'notes/notes', name: 'notes', moduleId: 'notes/notes', title: 'Notes', nav: true},
       {route: 'auth/login', name: 'login', moduleId: 'auth/login', title: 'Log in', nav: true},
       {route: 'auth/signup', name: 'signup', moduleId: 'auth/signup', title: 'Sign up', nav: true},
     ]);

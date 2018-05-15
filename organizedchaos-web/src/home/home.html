@@ -1,4 +1,7 @@
 <template>
+  <require from="../date-format"></require>
+  <require from="../notes/date-filter"></require>
+  <require from="../notes/complete-filter"></require>
   <div class="container">
     <div style="margin-top: 4em"> <!--TODO move to css-->
       <div class="row">
@@ -8,30 +11,25 @@
               <div class="bs-component">
                 <div class="card text-gray bg-light mb-3" style="max-width: 20rem;">
                   <div class="card-header">
-                    <input type="text" placeholder="Title" class="form-control" value.bind="noteHeader"/></div>
+                    <input type="date" placeholder="Title" class="form-control" value.bind="noteDate"/></div>
                   <div class="card-body">
                     <form>
                       <div class="form-group">
-                        <textarea class="form-control" rows="3" placeholder="Content" value.bind="noteDescription"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Content" value.bind="noteContent"></textarea>
                       </div>
-                      <button type="button" click.delegate="addNote()" class="btn btn-outline-primary">Add</button>
+                      <button type="button" click.delegate="addNote()" class="btn btn-outline-info">Add</button>
                     </form>
                   </div>
                 </div>
               </div>
-              <div class="bs-component" repeat.for="note of notes">
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+              <div class="bs-component" repeat.for="note of notes | dateFilter:'upcoming' | completeFilter:false">
+                <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
                   <div class="card-header">
-                    <span if.bind="editableNoteId==note.id" click.delegate="cancelEdit()" style="float: right; cursor: pointer">✖️</span>
-                    <span if.bind="editableNoteId==note.id" click.delegate="saveNote()" style="float: right; cursor: pointer">✔️</span>
-                    <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.name"/>
-                    <span if.bind="editableNoteId!=note.id">${note.name}</span>
-                    <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
-                    <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️
+                    <span>${note.date | dateFormat}</span>
+                    <span click.delegate="setIsComplete(note.id)" style="float: right; cursor: pointer">✔️</span>️
                   </div>
                   <div class="card-body">
-                    <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.content"/>
-                    <p if.bind="editableNoteId!=note.id" class="card-text">${note.content}</p>
+                    <p class="card-text">${note.content}</p>
                   </div>
                 </div>
               </div>

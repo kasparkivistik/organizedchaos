@@ -1,9 +1,8 @@
 export class Note {
 
-  constructor(header, description) {
-    this.name = header;
-    this.content = description;
+  constructor(date, content) {
+    this.date = date;
+    this.content = content;
     this.complete = false;
   }
-
 }

@@ -64,13 +64,11 @@ public class NoteServiceTests {
         sampleNote1 = new Note();
         sampleNote1.setId(TEST_NOTE_ID1);
         sampleNote1.setContent("Content");
-        sampleNote1.setName("Title");
         sampleNote1.setComplete(true);
 
         sampleNote2 = new Note();
         sampleNote2.setId(TEST_NOTE_ID2);
         sampleNote2.setContent("Content2");
-        sampleNote2.setName("Title2");
         sampleNote2.setComplete(false);
 
         sampleUser1 = new User();
@@ -98,7 +96,7 @@ public class NoteServiceTests {
     @Test
     public void testGetAllNotesSuccess() throws Exception {
         Mockito.when(noteService.getAllNotes()).thenReturn(sampleNotes);
-        mockMvc.perform(get("/notes"))
+        mockMvc.perform(get("api/notes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -118,20 +116,13 @@ public class NoteServiceTests {
 
     @Test
     public void testSaveNote() throws Exception {
-        when(noteService.getNoteById(TEST_NOTE_ID1)).thenReturn(sampleNote1);
-        mockMvc.perform(post("/notes/save")
+        //when(noteService.getNoteById(TEST_NOTE_ID1)).thenReturn(sampleNote1);
+        mockMvc.perform(post("api/notes/save")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(asJsonString(sampleNote1)))
                 .andExpect(status().isCreated());
-
-                //.andExpect(header().string("location", containsString("http://localhost/notes/save")))
-                //.andExpect(jsonPath("$.id", Matchers.is(1)))
-                //.andExpect(jsonPath("$.content", Matchers.is("Content")))
-                //.andExpect(jsonPath("$.name", Matchers.is("Title")))
-                //.andExpect(jsonPath("$.complete", Matchers.is(true)));
         verify(noteService, times(1)).saveNote(sampleNote1);
         verifyNoMoreInteractions(noteService);
-        System.out.println(asJsonString(sampleNote1));
     }
 
     @Test
@@ -145,22 +136,22 @@ public class NoteServiceTests {
 
     @Test
     public void testGetNotesByUser() throws Exception {
-        when(noteService.getNotesByUser(sampleUser1)).thenReturn(sampleNotes);
-        mockMvc.perform(get("notes/{user}", sampleUser1))
+        when(noteService.getNotesByUser(sampleUser1.getId())).thenReturn(sampleNotes);
+        mockMvc.perform(get("api/notes/{user}", sampleUser1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.username", is("keit")));
-        verify(noteService, times(1)).getNotesByUser(sampleUser1);
+        verify(noteService, times(1)).getNotesByUser(sampleUser1.getId());
         verifyNoMoreInteractions(noteService);
     }
 
     @Test
     public void testGetNotesByUserFail404NotFound() throws Exception {
-        when(noteService.getNotesByUser(sampleUser1)).thenReturn(null);
-        mockMvc.perform(get("/notes/{user}", 1))
+        when(noteService.getNotesByUser(sampleUser1.getId())).thenReturn(null);
+        mockMvc.perform(get("api/notes/{user}", 1))
                 .andExpect(status().isNotFound());
-        verify(noteService, times(1)).getNotesByUser(sampleUser1);
+        verify(noteService, times(1)).getNotesByUser(sampleUser1.getId());
         verifyNoMoreInteractions(noteService);
     }
 

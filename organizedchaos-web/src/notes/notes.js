@@ -1,5 +1,6 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
+import environment from '../environment';
 
 let client = new HttpClient();
 
@@ -7,8 +8,8 @@ export class notes {
 
   constructor() {
     this.notes = [];
-    this.noteDescription = '';
-    this.noteHeader = '';
+    this.noteContent = '';
+    this.noteDate = '';
     this.editableNoteId = undefined;
     this.editableNote = undefined;
 
@@ -16,9 +17,9 @@ export class notes {
   }
 
   addNote() {
-    if (this.noteDescription && this.noteHeader) {
-      const note = new Note(this.noteHeader, this.noteDescription);
-      client.fetch('http://localhost:8080/notes/save', {
+    if (this.noteContent && this.noteDate) {
+      const note = new Note(this.noteDate, this.noteContent);
+      client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
           'Authorization': sessionStorage.getItem("token"),
@@ -29,13 +30,13 @@ export class notes {
         console.log("note added", response.json());
         this.getNotes();
       });
-      this.noteDescription = '';
-      this.noteHeader = '';
+      this.noteContent = '';
+      this.noteDate = '';
     }
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes', {
+    client.fetch(environment.url + 'api/notes', {
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ export class notes {
   }
 
   removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id , {
+    client.fetch(environment.url + 'api/notes/' + id, {
       method: "DELETE",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
@@ -64,16 +65,16 @@ export class notes {
 
   editNote(note) {
     this.editableNoteId = note.id;
-    this.editableNote = new Note(note.name, note.content);
+    this.editableNote = new Note(note.date, note.content);
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.editableNoteId = undefined;
   }
 
-  saveNote(){
+  saveNote() {
     this.editableNote.id = this.editableNoteId;
-    client.fetch('http://localhost:8080/notes/save', {
+    client.fetch(environment.url + 'api/notes/save', {
       method: "POST",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
@@ -81,9 +82,22 @@ export class notes {
       },
       body: json(this.editableNote)
     }).then(response => {
-      console.log("note saved", response.json());
+      console.log("note saved");
       this.getNotes();
       this.cancelEdit();
+    });
+  }
+
+  setComplete(id, isComplete) {
+    client.fetch(environment.url + 'api/notes/setComplete?id=' + id + '&complete=' + isComplete, {
+      method: "POST",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+    }).then(() => {
+      console.log("note updated");
+      this.getNotes();
     });
   }
 
