@@ -22,6 +22,7 @@ export class login {
       const token = response.token;
       sessionStorage.setItem('token', token);
       this.router.navigate("notes/notes");
+      location.reload();
     });
   }
 }
