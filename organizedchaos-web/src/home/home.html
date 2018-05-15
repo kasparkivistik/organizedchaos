@@ -8,23 +8,23 @@
               <div class="bs-component">
                 <div class="card text-gray bg-light mb-3" style="max-width: 20rem;">
                   <div class="card-header">
-                    <input type="text" placeholder="Title" class="form-control" value.bind="noteHeader"/></div>
+                    <input type="date" placeholder="Title" class="form-control" value.bind="noteHeader"/></div>
                   <div class="card-body">
                     <form>
                       <div class="form-group">
                         <textarea class="form-control" rows="3" placeholder="Content" value.bind="noteDescription"></textarea>
                       </div>
-                      <button type="button" click.delegate="addNote()" class="btn btn-outline-primary">Add</button>
+                      <button type="button" click.delegate="addNote()" class="btn btn-outline-info">Add</button>
                     </form>
                   </div>
                 </div>
               </div>
               <div class="bs-component" repeat.for="note of notes">
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
                   <div class="card-header">
                     <span if.bind="editableNoteId==note.id" click.delegate="cancelEdit()" style="float: right; cursor: pointer">✖️</span>
                     <span if.bind="editableNoteId==note.id" click.delegate="saveNote()" style="float: right; cursor: pointer">✔️</span>
-                    <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.name"/>
+                    <input if.bind="editableNoteId==note.id" type="date" class="form-control" value.bind="editableNote.name"/>
                     <span if.bind="editableNoteId!=note.id">${note.name}</span>
                     <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
                     <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️

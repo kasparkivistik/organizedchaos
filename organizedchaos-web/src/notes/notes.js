@@ -8,8 +8,8 @@ export class notes {
 
   constructor() {
     this.notes = [];
-    this.noteDescription = '';
-    this.noteHeader = '';
+    this.noteContent = '';
+    this.noteDate = '';
     this.editableNoteId = undefined;
     this.editableNote = undefined;
 
@@ -17,8 +17,8 @@ export class notes {
   }
 
   addNote() {
-    if (this.noteDescription && this.noteHeader) {
-      const note = new Note(this.noteHeader, this.noteDescription);
+    if (this.noteContent && this.noteDate) {
+      const note = new Note(this.noteDate, this.noteContent);
       client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
@@ -30,8 +30,8 @@ export class notes {
         console.log("note added", response.json());
         this.getNotes();
       });
-      this.noteDescription = '';
-      this.noteHeader = '';
+      this.noteContent = '';
+      this.noteDate = '';
     }
   }
 
@@ -65,7 +65,7 @@ export class notes {
 
   editNote(note) {
     this.editableNoteId = note.id;
-    this.editableNote = new Note(note.name, note.content);
+    this.editableNote = new Note(note.date, note.content);
   }
 
   cancelEdit() {
