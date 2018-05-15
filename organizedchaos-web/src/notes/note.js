@@ -5,5 +5,4 @@ export class Note {
     this.content = description;
     this.complete = false;
   }
-
 }

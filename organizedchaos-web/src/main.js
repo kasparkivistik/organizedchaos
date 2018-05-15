@@ -1,4 +1,5 @@
 import environment from './environment';
+import auth from 'navbar';
 
 export function configure(aurelia) {
   aurelia.use
@@ -14,4 +15,6 @@ export function configure(aurelia) {
   }
 
   aurelia.start().then(() => aurelia.setRoot());
+
+  auth.isAuthenticated();
 }
