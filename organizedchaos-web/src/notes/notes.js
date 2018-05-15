@@ -1,6 +1,7 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
+import moment from 'moment';
 
 let client = new HttpClient();
 
@@ -82,9 +83,22 @@ export class notes {
       },
       body: json(this.editableNote)
     }).then(response => {
-      console.log("note saved", response.json());
+      console.log("note saved");
       this.getNotes();
       this.cancelEdit();
+    });
+  }
+
+  setComplete(id, isComplete) {
+    client.fetch(environment.url + 'api/notes/setComplete?id=' + id + '&complete=' + isComplete, {
+      method: "POST",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+    }).then(response => {
+      console.log("note updated");
+      this.getNotes();
     });
   }
 

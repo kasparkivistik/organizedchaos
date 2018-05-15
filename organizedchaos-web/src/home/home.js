@@ -1,8 +1,8 @@
-import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
 import $ from "jquery";
 import 'fullcalendar';
+import {Note} from "../notes/note";
 
 let client = new HttpClient();
 
@@ -10,17 +10,15 @@ export class home {
 
   constructor() {
     this.notes = [];
-    this.noteDescription = '';
-    this.noteHeader = '';
-    this.editableNoteId = undefined;
-    this.editableNote = undefined;
+    this.noteContent = '';
+    this.noteDate = '';
 
     this.getNotes();
   }
 
   addNote() {
-    if (this.noteDescription && this.noteHeader) {
-      const note = new Note(this.noteHeader, this.noteDescription);
+    if (this.noteContent && this.noteDate) {
+      const note = new Note(this.noteDate, this.noteContent);
       client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
@@ -32,8 +30,8 @@ export class home {
         console.log("note added", response.json());
         this.getNotes();
       });
-      this.noteDescription = '';
-      this.noteHeader = '';
+      this.noteContent = '';
+      this.noteDate = '';
     }
   }
 
@@ -52,41 +50,16 @@ export class home {
       });
   }
 
-  removeNote(id) {
-    client.fetch(environment.url + 'api/notes/' + id, {
-      method: "DELETE",
-      headers: {
-        'Authorization': sessionStorage.getItem("token"),
-        'Content-Type': 'application/json'
-      },
-    }).then(() => {
-      console.log("note deleted");
-      this.getNotes();
-    });
-  }
-
-  editNote(note) {
-    this.editableNoteId = note.id;
-    this.editableNote = new Note(note.name, note.content);
-  }
-
-  cancelEdit(){
-    this.editableNoteId = undefined;
-  }
-
-  saveNote(){
-    this.editableNote.id = this.editableNoteId;
-    client.fetch(environment.url + 'api/notes/save', {
+  setIsComplete(id) {
+    client.fetch(environment.url + 'api/notes/setComplete?id=' + id + '&complete=true', {
       method: "POST",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
-      body: json(this.editableNote)
-    }).then(response => {
-      console.log("note saved", response.json());
+    }).then(() => {
+      console.log("note updated");
       this.getNotes();
-      this.cancelEdit();
     });
   }
 
