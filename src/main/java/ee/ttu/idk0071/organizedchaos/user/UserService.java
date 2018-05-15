@@ -49,13 +49,13 @@ public class UserService implements UserDetailsService {
         return new User(user.getUsername(), user.getPassword(), emptyList());
     }
 
-    public long findCurrentUserId() {
+    public User findCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getPrincipal().toString();
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return user.getId();
+        return user;
     }
 }

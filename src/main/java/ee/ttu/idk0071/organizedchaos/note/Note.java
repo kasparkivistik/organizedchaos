@@ -18,6 +18,6 @@ public class Note {
     private boolean complete;
     @ManyToOne
     private User user;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @Column(name = "timestamp", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date timestamp;
 }

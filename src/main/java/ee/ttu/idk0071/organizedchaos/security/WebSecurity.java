@@ -29,19 +29,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] permitAllEndpointList = new String[]{
-                USERS,
-                SWAGGER_URL,
-                SWAGGER_RESOURCES_URL,
-                WEBJARS_PATH,
-                API_DOCS_URL
-        };
-
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, GET_TOKEN_URL).permitAll()
-                .antMatchers(permitAllEndpointList).permitAll()
+                .antMatchers(USERS).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
