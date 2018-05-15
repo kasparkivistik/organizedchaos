@@ -4,7 +4,6 @@ import environment from '../environment';
 import moment from 'moment';
 
 let client = new HttpClient();
-moment.locale('et');
 
 export class notes {
 
