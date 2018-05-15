@@ -42,4 +42,10 @@ public class NoteService {
     Note getNoteById(long id) {
         return noteRepository.findOne(id);
     }
+
+    void setComplete(boolean isComplete, long id) {
+        Note note = getNoteById(id);
+        note.setComplete(isComplete);
+        noteRepository.save(note);
+    }
 }

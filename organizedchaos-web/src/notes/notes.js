@@ -90,5 +90,18 @@ export class notes {
     });
   }
 
+  setComplete(id, isComplete) {
+    client.fetch(environment.url + 'api/notes/setComplete?id=' + id + '&complete=' + isComplete, {
+      method: "POST",
+      headers: {
+        'Authorization': sessionStorage.getItem("token"),
+        'Content-Type': 'application/json'
+      },
+    }).then(response => {
+      console.log("note updated");
+      this.getNotes();
+    });
+  }
+
 
 }

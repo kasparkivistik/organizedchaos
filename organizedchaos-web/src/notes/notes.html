@@ -35,7 +35,8 @@
                 <input if.bind="editableNoteId==note.id" type="date" class="form-control" value.bind="editableNote.date"/>
                 <span if.bind="editableNoteId!=note.id">${note.date | dateFormat}</span>
                 <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
-                <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️
+                <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>
+                <span if.bind="editableNoteId!=note.id" click.delegate="setComplete(note.id, true)" style="float: right; cursor: pointer">✔️</span>️
               </div>
               <div class="card-body">
                 <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.content"/>
@@ -54,7 +55,8 @@
                 <input if.bind="editableNoteId==note.id" type="date" class="form-control" value.bind="editableNote.date"/>
                 <span if.bind="editableNoteId!=note.id">${note.date | dateFormat}</span>
                 <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
-                <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️
+                <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>
+                <span if.bind="editableNoteId!=note.id" click.delegate="setComplete(note.id, true)" style="float: right; cursor: pointer">✔️</span>️
               </div>
               <div class="card-body">
                 <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.content"/>
@@ -74,6 +76,7 @@
                 <span if.bind="editableNoteId!=note.id">${note.date | dateFormat}</span>
                 <span if.bind="editableNoteId!=note.id" click.delegate="removeNote(note.id)" style="float: right; cursor: pointer">🗑️</span>️
                 <span if.bind="editableNoteId!=note.id" click.delegate="editNote(note)" style="float: right; cursor: pointer">✏️</span>️
+                <span if.bind="editableNoteId!=note.id" click.delegate="setComplete(note.id, false)" style="float: right; cursor: pointer">✖️</span>️
               </div>
               <div class="card-body">
                 <input if.bind="editableNoteId==note.id" type="text" class="form-control" value.bind="editableNote.content"/>
