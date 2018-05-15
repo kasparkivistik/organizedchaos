@@ -1,5 +1,6 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
+import environment from '../environment';
 
 let client = new HttpClient();
 
@@ -18,7 +19,7 @@ export class notes {
   addNote() {
     if (this.noteContent && this.noteDate) {
       const note = new Note(this.noteDate, this.noteContent);
-      client.fetch('http://localhost:8080/notes/save', {
+      client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
           'Authorization': sessionStorage.getItem("token"),
@@ -35,7 +36,7 @@ export class notes {
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes', {
+    client.fetch(environment.url + 'api/notes', {
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ export class notes {
   }
 
   removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id , {
+    client.fetch(environment.url + 'api/notes/' + id, {
       method: "DELETE",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
@@ -67,13 +68,13 @@ export class notes {
     this.editableNote = new Note(note.date, note.content);
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.editableNoteId = undefined;
   }
 
-  saveNote(){
+  saveNote() {
     this.editableNote.id = this.editableNoteId;
-    client.fetch('http://localhost:8080/notes/save', {
+    client.fetch(environment.url + 'api/notes/save', {
       method: "POST",
       headers: {
         'Authorization': sessionStorage.getItem("token"),

@@ -19,8 +19,8 @@ public class NoteService {
     }
 
     List<Note> getAllNotes() {
-        long userID = userService.findCurrentUserId();
-        List<Note> notes = noteRepository.findAllByUserIdOrderByDateAsc(userID);
+        long userId = userService.findCurrentUserId().getId();
+        List<Note> notes = getNotesByUser(userId);
         Collections.reverse(notes);
         return notes;
     }
@@ -30,14 +30,13 @@ public class NoteService {
     }
 
     void saveNote(Note note) {
-        User user = new User();
-        user.setId(userService.findCurrentUserId());
+        User user = userService.findCurrentUserId();
         note.setUser(user);
         noteRepository.save(note);
     }
 
-    List<Note> getNotesByUser(User user) {
-        return (List<Note>) noteRepository.findOne(user.getId());
+    List<Note> getNotesByUser(Long userId) {
+        return noteRepository.findAllByUserIdOrderByDateAsc(userId);
     }
 
     Note getNoteById(long id) {

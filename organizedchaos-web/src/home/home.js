@@ -21,7 +21,7 @@ export class home {
   addNote() {
     if (this.noteDescription && this.noteHeader) {
       const note = new Note(this.noteHeader, this.noteDescription);
-      client.fetch('http://localhost:8080/notes/save', {
+      client.fetch(environment.url + 'api/notes/save', {
         method: "POST",
         headers: {
           'Authorization': sessionStorage.getItem("token"),
@@ -38,7 +38,7 @@ export class home {
   }
 
   getNotes() {
-    client.fetch('http://localhost:8080/notes', {
+    client.fetch(environment.url + 'api/notes', {
       headers: {
         'Authorization': sessionStorage.getItem("token"),
         'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ export class home {
   }
 
   removeNote(id) {
-    client.fetch('http://localhost:8080/notes/' + id , {
+    client.fetch(environment.url + 'api/notes/' + id, {
       method: "DELETE",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
@@ -76,7 +76,7 @@ export class home {
 
   saveNote(){
     this.editableNote.id = this.editableNoteId;
-    client.fetch('http://localhost:8080/notes/save', {
+    client.fetch(environment.url + 'api/notes/save', {
       method: "POST",
       headers: {
         'Authorization': sessionStorage.getItem("token"),
@@ -118,5 +118,4 @@ export class home {
       ]
     })
   }
-
 }

@@ -15,7 +15,7 @@ export class signup {
 
     if ($('#password').val() === $('#password-confirm').val()) {
 
-      client.fetch(environment.url + 'users/add', {
+      client.fetch(environment.url + 'api/users', {
         'method': "POST",
         'body': json(this.userData)
       })
