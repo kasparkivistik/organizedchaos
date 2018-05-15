@@ -30,6 +30,12 @@ public class NoteController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "setComplete")
+    public ResponseEntity setComplete(@RequestParam("complete") boolean complete, @RequestParam("id") long id) {
+        noteService.setComplete(complete, id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @GetMapping(value = "user/{user}")
     public ResponseEntity<List<Note>> getNotesByUser(@PathVariable("user") long userId) {
         return new ResponseEntity<>(noteService.getNotesByUser(userId), HttpStatus.OK);

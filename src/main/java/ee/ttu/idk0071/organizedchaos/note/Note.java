@@ -22,7 +22,6 @@ public class Note {
     private String content;
     @JsonFormat(pattern="yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
     private LocalDate date;
     private boolean complete;
     @ManyToOne
