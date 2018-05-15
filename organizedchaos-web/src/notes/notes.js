@@ -1,8 +1,10 @@
 import {Note} from './note';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import environment from '../environment';
+import moment from 'moment';
 
 let client = new HttpClient();
+moment.locale('et');
 
 export class notes {
 
@@ -82,7 +84,7 @@ export class notes {
       },
       body: json(this.editableNote)
     }).then(response => {
-      console.log("note saved", response.json());
+      console.log("note saved");
       this.getNotes();
       this.cancelEdit();
     });
