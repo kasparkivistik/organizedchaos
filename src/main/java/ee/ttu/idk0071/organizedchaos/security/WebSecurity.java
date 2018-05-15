@@ -29,23 +29,25 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL + "/*").permitAll()
-                .antMatchers(HttpMethod.POST, GET_TOKEN_URL).permitAll()
-                .antMatchers(SWAGGER_URL).permitAll()
+        String[] permitAllEndpointList = new String[]{
+                USERS,
+                SWAGGER_URL,
+                SWAGGER_RESOURCES_URL,
+                WEBJARS_PATH,
+                API_DOCS_URL
+        };
 
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, GET_TOKEN_URL).permitAll()
+                .antMatchers(permitAllEndpointList).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    }
-
-    @Override
-    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
-                "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
     @Override

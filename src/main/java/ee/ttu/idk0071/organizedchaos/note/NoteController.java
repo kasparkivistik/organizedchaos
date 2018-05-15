@@ -4,21 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/notes")
 public class NoteController {
 
+    @Resource
     private NoteService noteService;
 
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
-    @GetMapping
+    @GetMapping(value = "")
     public ResponseEntity<List<Note>> getAllNotes() {
-        return new ResponseEntity<>(noteService.getAllNotes(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(noteService.getAllNotes(), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
@@ -33,12 +31,12 @@ public class NoteController {
 
     @GetMapping(value = "user/{user}")
     public ResponseEntity<List<Note>> getNotesByUser(@PathVariable("user") long userId) {
-        return new ResponseEntity<>(noteService.findAllByUserId(userId), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(noteService.getNotesByUser(userId), HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<Note> getNoteById(@PathVariable("id") long id) {
-        return new ResponseEntity<>(noteService.getNoteById(id), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(noteService.getNoteById(id), HttpStatus.OK);
     }
 
 }
