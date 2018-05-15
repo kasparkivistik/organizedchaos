@@ -25,8 +25,9 @@ public class NoteController {
     }
 
     @PostMapping(value = "save")
-    public ResponseEntity<Note> saveNote(@RequestBody Note note) {
-        return new ResponseEntity<>(noteService.saveNote(note), HttpStatus.CREATED);
+    public ResponseEntity saveNote(@RequestBody Note note) {
+        noteService.saveNote(note);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "user/{user}")
