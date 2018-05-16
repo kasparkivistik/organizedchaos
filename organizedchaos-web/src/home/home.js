@@ -3,6 +3,7 @@ import environment from '../environment';
 import $ from "jquery";
 import 'fullcalendar';
 import {Note} from "../notes/note";
+import moment from "moment";
 
 let client = new HttpClient();
 
@@ -67,26 +68,33 @@ export class home {
       header:{
         right: "next",
         center: "title",
-        left: "prev"
+        left: "addEventButton, prev"
       },
       firstDay:1,
       weekNumbers:1,
-      events: [
-        {
-          title  : 'org juhtimine jääb ära',
-          start  : '2018-04-12'
-        },
-        {
-          title  : 'tarkvaratehnika allnighterid',
-          start  : '2018-04-13',
-          end    : '2018-04-15'
-        },
-        {
-          title  : 'Keit reisile',
-          start  : '2018-04-26T12:30:00',
-          allDay : false // will make the time show
+      customButtons: {
+        addEventButton: {
+          text: 'Add event',
+          click: function () {
+            let dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            let date = moment(dateStr);
+            let titleStr = prompt('What\`s the event?');
+            let title = titleStr.toUpperCase();
+
+            if (date.isValid()) {
+              $('#calendar').fullCalendar('renderEvent', {
+                title: title,
+                start: date,
+                allDay: true,
+                textColor: 'white'
+              });
+              alert('Great.');
+            } else {
+              alert('Invalid date.');
+            }
+          }
         }
-      ]
+      }
     })
   }
 }

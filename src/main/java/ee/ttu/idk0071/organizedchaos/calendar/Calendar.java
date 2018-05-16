@@ -14,9 +14,9 @@ public class Calendar implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
-    private String name;
-    private Date startDate;
-    private Date endDate;
+    private String title;
+    private Date start;
+    private Date end;
     @ManyToOne
     private User user;
 }
