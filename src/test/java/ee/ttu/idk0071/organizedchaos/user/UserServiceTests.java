@@ -2,6 +2,7 @@ package ee.ttu.idk0071.organizedchaos.user;
 
 import ee.ttu.idk0071.organizedchaos.note.Note;
 import org.apache.catalina.filters.CorsFilter;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,20 +80,20 @@ public class UserServiceTests {
         user1.setId(TEST_USER_ID1);
         user1.setEmail(TEST_USER_EMAIL);
         user1.setPassword("123");
-        user1.setUsername("test1");
+        //user1.setUsername("test1");
         user1.setNotes(sampleNotes);
 
         user2 = new User();
         user2.setId(TEST_USER_ID2);
         user2.setEmail("test2@test.ee");
         user2.setPassword("456");
-        user2.setUsername("test2");
+        //user2.setUsername("test2");
 
         user3 = new User();
         user3.setId(TEST_USER_ID3);
         user3.setEmail("test3@test.ee");
         user3.setPassword("789");
-        user3.setUsername("test3");
+        //user3.setUsername("test3");
 
         sampleUsers = new ArrayList<>();
         sampleUsers.add(user1);
@@ -103,7 +104,7 @@ public class UserServiceTests {
 
         mockMvc = MockMvcBuilders
                 .standaloneSetup(userController)
-                .addFilter(new CorsFilter())
+                .addFilters(new CorsFilter())
                 .build();
     }
 
@@ -118,7 +119,17 @@ public class UserServiceTests {
         mockMvc.perform(get("api/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].id", Matchers.is(1)))
+                .andExpect(jsonPath("$[0].email", Matchers.is("test1@test.ee")))
+                .andExpect(jsonPath("$[0].password", Matchers.is("123")))
+                //.andExpect(jsonPath("$[0].complete", Matchers.is(true)))
+                //.andExpect(jsonPath("$[0].user", Matchers.is(1)))
+                .andExpect(jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(jsonPath("$[1].content", Matchers.is("Content2")))
+                .andExpect(jsonPath("$[1].name", Matchers.is("Title2")))
+                .andExpect(jsonPath("$[1].complete", Matchers.is(false)));
+        ;
         Mockito.verify(userService, Mockito.times(1)).getAllUsers();
         verifyNoMoreInteractions(userService);
         Assert.assertEquals(userService.getAllUsers(), sampleUsers);
