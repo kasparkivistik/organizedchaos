@@ -2,7 +2,6 @@ import $ from 'jquery';
 import 'fullcalendar';
 import moment from "moment";
 import environment from 'environment';
-import {Event} from "./event";
 
 export class calendar {
 
@@ -60,15 +59,12 @@ export class calendar {
         events: 'json',
         success: function (response) {
           console.log(response);
-          alert('worked');
-          //return {events: response};
         },
         error: function (response) {
           alert('wrong');
         }
       }
       ],
-      textColor: 'black',
       editable: true
     })
   }

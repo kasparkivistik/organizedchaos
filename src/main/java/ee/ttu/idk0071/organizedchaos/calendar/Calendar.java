@@ -19,4 +19,5 @@ public class Calendar implements Serializable {
     private Date end;
     @ManyToOne
     private User user;
+    private String textColor;
 }

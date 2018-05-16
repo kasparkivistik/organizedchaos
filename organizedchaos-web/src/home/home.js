@@ -94,7 +94,22 @@ export class home {
             }
           }
         }
+      },
+      eventSources: [{
+        url: environment.url + 'api/events',
+        type: 'GET',
+        headers: {
+          'Authorization': sessionStorage.getItem('token')
+        },
+        events: 'json',
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (response) {
+          alert('wrong');
+        }
       }
+      ],
     })
   }
 }
