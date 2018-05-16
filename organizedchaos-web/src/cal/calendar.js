@@ -61,7 +61,7 @@ export class calendar {
         success: function (response) {
           console.log(response);
           alert('worked');
-          return {events: response};
+          //return {events: response};
         },
         error: function (response) {
           alert('wrong');
