@@ -27,7 +27,7 @@ export class home {
         },
         body: json(note)
       }).then(response => {
-        console.log("note added", response.json());
+        response.json();
         this.getNotes();
       });
       this.noteContent = '';
@@ -46,7 +46,6 @@ export class home {
       .then(response => response.json())
       .then(notes => {
         this.notes = notes;
-        console.log("notes loaded", this.notes);
       });
   }
 
@@ -58,7 +57,6 @@ export class home {
         'Content-Type': 'application/json'
       },
     }).then(() => {
-      console.log("note updated");
       this.getNotes();
     });
   }
