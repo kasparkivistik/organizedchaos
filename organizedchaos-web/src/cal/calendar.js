@@ -20,7 +20,7 @@ export class calendar {
       weekNumbers:1,
       customButtons: {
         addEventButton: {
-          text: 'add event...',
+          text: 'Add event',
           click: function () {
             let dateStr = prompt('Enter a date in YYYY-MM-DD format');
             let date = moment(dateStr);
@@ -54,7 +54,11 @@ export class calendar {
                 format: 'json'
               },
               success: function (data) {
-
+                for (let i = 0; i < data.length; i++) {
+                  let outputData = {
+                    d
+                  }
+                }
               }
             })
           }
