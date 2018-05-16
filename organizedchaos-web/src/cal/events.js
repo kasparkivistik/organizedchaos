@@ -18,7 +18,7 @@ export class events {
   }
 
   addEvent() {
-    if (this.eventNotes && this.eventName) {
+    if (this.eventDescription && this.eventName) {
       const event = new Event(this.eventName, this.eventDescription, this.startDate, this.endDate);
       client.fetch('http://localhost:8080/events/save', {
         method: "POST",

@@ -19,7 +19,8 @@ public class CalendarService {
     }
 
     public List<Calendar> getAllEvents() {
-        long userID = userService.findCurrentUserId();
+        User user = userService.findCurrentUserId();
+        long userID = user.getId();
         List<Calendar> events = calendarRepository.findAllByUserId(userID);
         Collections.reverse(events);
         return events;
@@ -31,7 +32,7 @@ public class CalendarService {
 
     public Calendar saveEvent(Calendar event) {
         User user = new User();
-        user.setId(userService.findCurrentUserId());
+        user.setId(userService.findCurrentUserId().getId());
         event.setUser(user);
         return calendarRepository.save(event);
     }

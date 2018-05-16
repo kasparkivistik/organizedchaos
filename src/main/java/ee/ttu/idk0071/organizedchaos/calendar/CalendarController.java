@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "events")
+@RequestMapping(value = "api/events")
 public class CalendarController {
 
     private CalendarService calendarService;
 
     public CalendarController(CalendarService calendarService) { this.calendarService = calendarService; }
 
-    @GetMapping
+    @GetMapping( value = "")
     public List<Calendar> getAllEvents() {return calendarService.getAllEvents(); }
 
     @DeleteMapping(value = "{id}")
