@@ -25,8 +25,15 @@ public class NoteController {
     }
 
     @PostMapping(value = "save")
-    public ResponseEntity<Note> saveNote(@RequestBody Note note) {
-        return new ResponseEntity<>(noteService.saveNote(note), HttpStatus.CREATED);
+    public ResponseEntity saveNote(@RequestBody Note note) {
+        noteService.saveNote(note);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "setComplete")
+    public ResponseEntity setComplete(@RequestParam("complete") boolean complete, @RequestParam("id") long id) {
+        noteService.setComplete(complete, id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "user/{user}")

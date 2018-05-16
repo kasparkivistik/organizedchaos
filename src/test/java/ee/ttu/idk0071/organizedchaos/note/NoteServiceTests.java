@@ -64,13 +64,11 @@ public class NoteServiceTests {
         sampleNote1 = new Note();
         sampleNote1.setId(TEST_NOTE_ID1);
         sampleNote1.setContent("Content");
-        sampleNote1.setName("Title");
         sampleNote1.setComplete(true);
 
         sampleNote2 = new Note();
         sampleNote2.setId(TEST_NOTE_ID2);
         sampleNote2.setContent("Content2");
-        sampleNote2.setName("Title2");
         sampleNote2.setComplete(false);
 
         sampleUser1 = new User();
@@ -138,22 +136,22 @@ public class NoteServiceTests {
 
     @Test
     public void testGetNotesByUser() throws Exception {
-        when(noteService.findAllByUserId(sampleUser1.getId())).thenReturn(sampleNotes);
+        when(noteService.getNotesByUser(sampleUser1.getId())).thenReturn(sampleNotes);
         mockMvc.perform(get("api/notes/{user}", sampleUser1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.username", is("keit")));
-        verify(noteService, times(1)).findAllByUserId(sampleUser1.getId());
+        verify(noteService, times(1)).getNotesByUser(sampleUser1.getId());
         verifyNoMoreInteractions(noteService);
     }
 
     @Test
     public void testGetNotesByUserFail404NotFound() throws Exception {
-        when(noteService.findAllByUserId(sampleUser1.getId())).thenReturn(null);
+        when(noteService.getNotesByUser(sampleUser1.getId())).thenReturn(null);
         mockMvc.perform(get("api/notes/{user}", 1))
                 .andExpect(status().isNotFound());
-        verify(noteService, times(1)).findAllByUserId(sampleUser1.getId());
+        verify(noteService, times(1)).getNotesByUser(sampleUser1.getId());
         verifyNoMoreInteractions(noteService);
     }
 
