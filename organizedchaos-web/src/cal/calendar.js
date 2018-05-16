@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import 'fullcalendar';
+import moment from "moment";
+import environment from 'environment';
 
 export class calendar {
 
@@ -10,23 +12,51 @@ export class calendar {
   attached() {
     $('#calendar').fullCalendar({
       header:{
-        right: "next",
-        center: "title",
-        left: "prev"
+        right: 'addEventButton, next',
+        center: '',
+        left: 'prev'
       },
       firstDay:1,
       weekNumbers:1,
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function () {
+            let dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            let date = moment(dateStr);
+            let titleStr = prompt('What\`s the event?');
+            let title = titleStr.toUpperCase();
+
+            if (date.isValid()) {
+              $('#calendar').fullCalendar('renderEvent', {
+                title: title,
+                start: date,
+                allDay: true,
+                textColor: 'white'
+              });
+              alert('Great. Now, update your database...');
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      },
       eventSources: [{
         events: [
-          {
-            title  : 'Tarkvaratehnika II iteratsiooni kaitsmine',
-            start  : '2018-04-11T14:00:00',
-            allDay: false
-          },
-          {
-            title  : 'Keit reisil',
-            start  : '2018-04-26',
-            end    : '2018-05-03'
+          function () {
+            $.ajax({
+              url: environment.url + 'events',
+              type: 'GET',
+              headers: {
+                'Authorizaton': sessionStorage.getItem('token')
+              },
+              data: {
+                format: 'json'
+              },
+              success: function (data) {
+
+              }
+            })
           }
         ],
         textColor: 'black'
